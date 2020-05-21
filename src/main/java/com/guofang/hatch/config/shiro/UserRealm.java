@@ -2,6 +2,7 @@ package com.guofang.hatch.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.service.LoginService;
+import com.guofang.hatch.util.CommonUtil;
 import com.guofang.hatch.util.constant.Constant;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.util.Collection;
 
 public class UserRealm extends AuthorizingRealm {
@@ -24,6 +26,7 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        System.out.println("#############  doGetAuthorizationInfo");
         Session session = SecurityUtils.getSubject().getSession();
 
         JSONObject permission = (JSONObject) session.getAttribute(Constant.SESSION_USER_PERMISSION);
@@ -37,13 +40,14 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        System.out.println("#############  doGetAuthenticationInfo");
         String pidAndLoginName = (String) authenticationToken.getPrincipal();
-        String[] tmp = pidAndLoginName.split("|");
+        String[] tmp = pidAndLoginName.split("\\|");
         String bid = tmp[0];
         String loginName = tmp[1];
+        JSONObject user = loginService.getUser(bid, loginName);
         String password = new String((char[]) authenticationToken.getCredentials());
-        JSONObject user = loginService.getUser(bid, loginName, password);
-        if(null == user) {
+        if(null == user || !CommonUtil.bcryptValidate(password, user.getString("password"))) {
             throw new UnknownAccountException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
@@ -51,10 +55,9 @@ public class UserRealm extends AuthorizingRealm {
                 user.getString("password"),
                 getName()
         );
-
         user.remove(password);
         SecurityUtils.getSubject().getSession().setAttribute(Constant.SESSION_USER_INFO, user);
-
+        System.out.println(user);
         return authenticationInfo;
     }
 }

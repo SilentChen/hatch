@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.config.exception.CommonJsonException;
 import com.guofang.hatch.util.constant.Constant;
 import com.guofang.hatch.util.constant.ErrorEnum;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +84,7 @@ public class CommonUtil {
                     missCol += column + " ";
                 }
             }
-            if(!StringTool.isNullOrEmpty(missCol)) {
+            if(StringTool.isNullOrEmpty(missCol)) {
                 jsonObject.clear();;
                 jsonObject.put(Constant.JSON_RESPONSE_CODE, ErrorEnum.E_10001.getErrorCode());
                 jsonObject.put(Constant.JSON_RESPONSE_MESSAGE, ErrorEnum.E_10001.getErrorMsg() + missCol.trim());
@@ -100,7 +101,17 @@ public class CommonUtil {
         return jsonObject;
     }
 
-    public static String md5(String signString){
-        return DigestUtils.md5DigestAsHex(signString.getBytes());
+    public static String md5(String pwdString){
+        return DigestUtils.md5DigestAsHex(pwdString.getBytes());
+    }
+
+    public static String bcrypt(String pwdString) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(pwdString);
+    }
+
+    public static boolean bcryptValidate(String rawPassword, String encodedPassword) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(rawPassword, encodedPassword);
     }
 }

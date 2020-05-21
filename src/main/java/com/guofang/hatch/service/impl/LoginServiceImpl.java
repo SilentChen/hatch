@@ -33,6 +33,7 @@ public class LoginServiceImpl implements LoginService {
             currentUser.login(token);
             data.put("status", 1);
         }catch (AuthenticationException e){
+            System.out.println(e);
             data.put("status", 0);
         }
 
@@ -40,8 +41,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public JSONObject getUser(String bid, String username, String password) {
-        return loginDao.getUser(bid, username, password);
+    public JSONObject getUser(String bid, String username) {
+        return loginDao.getUser(bid, username);
     }
 
     @Override

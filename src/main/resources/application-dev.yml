@@ -5,9 +5,9 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       druid:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://47.113.83.249:3306/ims?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-          username: admin
-          password: admin888
+          url: jdbc:mysql://119.23.38.176/ims?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+          username: root
+          password: qwer
           max-active: 20
           max-wait: 6000
           min-idel: 1

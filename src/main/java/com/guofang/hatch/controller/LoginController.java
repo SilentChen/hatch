@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -30,8 +30,9 @@ public class LoginController {
     @ApiOperation("test接口")
     public String test() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("bid", "28");
         jsonObject.put("username", "admin");
-        jsonObject.put("password", "123456");
+        jsonObject.put("password", "e10adc3949ba59abbe56e057f20f883e");
         loginService.authLogin(jsonObject);
         return "test";
     }
