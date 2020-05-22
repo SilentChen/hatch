@@ -4,7 +4,13 @@
 <mapper namespace="com.guofang.hatch.dao.LoginDao">
 
     <select id="getUser" resultType="com.alibaba.fastjson.JSONObject">
-        select id, bid, password, account_number as account, remember_token, created_at, updated_at, avatar, phone, user_name, post_id, dep_id, sex, `identity` from gf_users where bid = #{bid} and account_number = #{username} and is_del = 0 and is_enable = 1
+        select
+            gu.id, gu.bid, gu.password, gu.account_number, gu.remember_token, gu.created_at, gu.updated_at, gu.avatar, gu.phone, gu.user_name, gu.post_id, gu.dep_id, gu.sex, gu.`identity`,
+            gru.role_id
+        from
+            gf_users gu left join gf_role_users gru on gu.id = gru.user_id
+        where
+            gu.bid = #{bid} and gu.account_number = #{username} and gu.is_del = 0 and gu.is_enable = 1
     </select>
 
 </mapper>

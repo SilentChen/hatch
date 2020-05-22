@@ -16,6 +16,11 @@ public class CommonUtil {
         return successJson(new JSONObject());
     }
 
+    /**
+     * @description
+     * @param obj
+     * @return
+     */
     public static JSONObject successJson(Object obj) {
         JSONObject resultJson = new JSONObject();
         resultJson.put(Constant.JSON_RESPONSE_CODE, Constant.SUCCESS_CODE);
@@ -25,6 +30,11 @@ public class CommonUtil {
         return resultJson;
     }
 
+    /**
+     * @description
+     * @param errorEnum
+     * @return
+     */
     public static JSONObject errorJson(ErrorEnum errorEnum) {
         JSONObject resultJson = new JSONObject();
         resultJson.put(Constant.JSON_RESPONSE_CODE, errorEnum.getErrorCode());
@@ -34,6 +44,13 @@ public class CommonUtil {
         return resultJson;
     }
 
+    /**
+     * @description
+     * @param requestJson
+     * @param list
+     * @param totalCount
+     * @return
+     */
     public static JSONObject successJsonPage(final JSONObject requestJson, List<JSONObject> list, int totalCount) {
         int perPage     = requestJson.getIntValue("per_page");
         int currentPage = requestJson.getIntValue("current_page");
@@ -47,6 +64,14 @@ public class CommonUtil {
         return resultJson;
     }
 
+    /**
+     * @description
+     * @param list
+     * @param totalPage
+     * @param perPage
+     * @param currentPage
+     * @return
+     */
     public static JSONObject successJsonPage(List<JSONObject> list, int totalPage, int perPage, int currentPage) {
         JSONObject resultJson = successJson();
         resultJson.put("data", list);
@@ -57,6 +82,11 @@ public class CommonUtil {
         return resultJson;
     }
 
+    /**
+     * @description
+     * @param request
+     * @return
+     */
     public static JSONObject request2Json(HttpServletRequest request) {
         JSONObject requestJson = new JSONObject();
         Enumeration paramNames = request.getParameterNames();
@@ -74,6 +104,11 @@ public class CommonUtil {
         return requestJson;
     }
 
+    /**
+     * @description
+     * @param jsonObject
+     * @param requiredColumns
+     */
     public static void hasAllRequired(final JSONObject jsonObject, String requiredColumns) {
         if(!StringTool.isNullOrEmpty(requiredColumns)) {
             String[] columns = requiredColumns.split(",");
@@ -94,6 +129,12 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * @description
+     * @param request
+     * @param requiredColumns
+     * @return
+     */
     public static JSONObject convert2JsonAndCheckRequiredColumns(HttpServletRequest request, String requiredColumns) {
         JSONObject jsonObject = request2Json(request);
         hasAllRequired(jsonObject, requiredColumns);
@@ -101,15 +142,31 @@ public class CommonUtil {
         return jsonObject;
     }
 
+    /**
+     * @description
+     * @param pwdString
+     * @return
+     */
     public static String md5(String pwdString){
         return DigestUtils.md5DigestAsHex(pwdString.getBytes());
     }
 
+    /**
+     * description
+     * @param pwdString
+     * @return
+     */
     public static String bcrypt(String pwdString) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(pwdString);
     }
 
+    /**
+     * description
+     * @param rawPassword
+     * @param encodedPassword
+     * @return
+     */
     public static boolean bcryptValidate(String rawPassword, String encodedPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.matches(rawPassword, encodedPassword);

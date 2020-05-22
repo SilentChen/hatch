@@ -33,7 +33,6 @@ public class LoginServiceImpl implements LoginService {
             currentUser.login(token);
             data.put("status", 1);
         }catch (AuthenticationException e){
-            System.out.println(e);
             data.put("status", 0);
         }
 

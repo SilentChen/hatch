@@ -40,7 +40,6 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("#############  doGetAuthenticationInfo");
         String pidAndLoginName = (String) authenticationToken.getPrincipal();
         String[] tmp = pidAndLoginName.split("\\|");
         String bid = tmp[0];
@@ -51,13 +50,12 @@ public class UserRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getString("account"),
-                user.getString("password"),
+                user.getString("account_number"),
+                password,
                 getName()
         );
         user.remove(password);
         SecurityUtils.getSubject().getSession().setAttribute(Constant.SESSION_USER_INFO, user);
-        System.out.println(user);
         return authenticationInfo;
     }
 }
