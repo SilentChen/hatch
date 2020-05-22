@@ -14,8 +14,8 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionDao permissionDao;
 
     @Override
-    public JSONObject getUserPermission(String username) {
-        JSONObject userPermission = getUserPermissionFromDB(username);
+    public JSONObject getUserPermission(String roleId) {
+        JSONObject userPermission = getUserPermissionFromDB(roleId);
         return userPermission;
     }
 

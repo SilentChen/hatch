@@ -12,7 +12,6 @@ public class Constant {
     public static final String SUCCESS_STATUS           = "1";
     public static final String FAIL_STATUS              = "0";
 
-    public static final String SESSION_USER_BID         = "userBid";
     public static final String SESSION_USER_INFO        = "userInfo";
     public static final String SESSION_USER_PERMISSION  = "userPermission";
 }

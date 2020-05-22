@@ -48,9 +48,10 @@ public class LoginServiceImpl implements LoginService {
     public JSONObject getInfo() {
         Session session = SecurityUtils.getSubject().getSession();
         JSONObject userInfo = (JSONObject) session.getAttribute(Constant.SESSION_USER_INFO);
-        String username = userInfo.getString("username");
+        String roleId = userInfo.getString("role_id");
         JSONObject info = new JSONObject();
-        JSONObject userPermission = permissionService.getUserPermission(username);
+        JSONObject userPermission = permissionService.getUserPermission(roleId);
+        System.out.println(userPermission);
         session.setAttribute(Constant.SESSION_USER_PERMISSION, userPermission);
         info.put("userPermission", userInfo);
         return CommonUtil.successJson(info);
