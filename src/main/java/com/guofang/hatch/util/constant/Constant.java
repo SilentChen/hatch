@@ -6,6 +6,7 @@ public class Constant {
     public static final String JSON_RESPONSE_DATA       = "data";
     public static final String JSON_RESPONSE_STATUS     = "status";
     public static final String JSON_RESPONSE_INFO       = "info";
+    public static final String JSON_RESPONSE_ERROR      = "error";
 
     public static final String SUCCESS_CODE             = "200";
     public static final String SUCCESS_MSG              = "请求成功";

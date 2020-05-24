@@ -2,31 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guofang.hatch.dao.PermissionDao">
-    <resultMap id="permissionMap" type="com.guofang.hatch.util.model.One2Many">
-        <id column="id" property="id" />
-        <result column="parent_id" property="parent_id" />
-        <result column="title" property="title"/>
-        <result column="uri" property="uri"/>
-        <collection property="menuList" ofType="String">
-            <id column="menuCode" property="menuCode"/>
-        </collection>
-        <collection property="permissionList" ofType="String">
-            <id column="permissionCode" property="permissionCode"/>
-        </collection>
-    </resultMap>
 
-    <select id="getUserPermission" resultMap="permissionMap">
-        select id, parent_id, title, uri from gf_menu where id in (select menu_id from gf_role_menu where role_id = #{roleId} and is_del = 0) and is_del = 0
-    </select>
-
-    <select id="getAllPermission" resultType="String">
-        SELECT p.permission_code permissionCode
-        FROM sys_permission p
-        ORDER BY p.id
-    </select>
     <select id="getAllMenu" resultType="String">
         SELECT p.menu_code menuCode
         FROM sys_permission p
         ORDER BY p.id
+    </select>
+
+    <resultMap id="permissionMap" type="com.alibaba.fastjson.JSONObject">
+        <id column="id" property="id" />
+        <result column="parent_id" property="parent_id" />
+        <result column="title" property="title" />
+        <result column="uri" property="uri" />
+        <collection property="child_list" ofType="com.alibaba.fastjson.JSONObject" select="getPermissionChildMap" column="id"></collection>
+    </resultMap>
+
+    <select id="getAllPermission" resultMap="permissionMap">
+    select id, parent_id, title, uri from gf_menu where id in (select menu_id from gf_user_menu where bid = #{bid} and is_del = 0) and is_del = 0 and parent_id = 0
+    </select>
+    <select id="getUserPermission" resultMap="permissionMap">
+        select id, parent_id, title, uri from gf_menu where id in (select menu_id from gf_role_menu where role_id = #{roleId} and is_del = 0) and is_del = 0 and parent_id = 0
+    </select>
+    <select id="getPermissionChildMap" resultType="java.util.Map">
+      select id, parent_id, title, uri from gf_menu where is_del = 0 and parent_id = #{id}
     </select>
 </mapper>

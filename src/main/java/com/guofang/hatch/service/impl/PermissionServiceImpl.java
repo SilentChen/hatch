@@ -1,12 +1,10 @@
 package com.guofang.hatch.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
 import com.guofang.hatch.dao.PermissionDao;
 import com.guofang.hatch.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -14,22 +12,21 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionDao permissionDao;
 
     @Override
-    public JSONObject getUserPermission(String roleId) {
-        JSONObject userPermission = getUserPermissionFromDB(roleId);
+    public JSONArray getUserPermission(String bid, String roleId, String identity) {
+        JSONArray userPermission = getUserPermissionFromDB(bid, roleId, identity);
         return userPermission;
     }
 
-    private JSONObject getUserPermissionFromDB(String username) {
-        JSONObject userPermission = permissionDao.getUserPermission(username);
-        int adminRoleId = 1;
-        String roleIdKey = "roleId";
-        if(adminRoleId == userPermission.getIntValue(roleIdKey)) {
-            Set<String> menuList = permissionDao.getAllMenu();
-            Set<String> permissionList = permissionDao.getAllPermission();
-            userPermission.put("menuList", menuList);
-            userPermission.put("permissionList", permissionList);
+    private JSONArray getUserPermissionFromDB(String bid, String roleId, String identity) {
+        JSONArray permissionList;
+        // super admin
+        if(identity.equals("1")) {
+            permissionList = permissionDao.getAllPermission(bid);
+        // normal admin
+        }else{
+            permissionList = permissionDao.getUserPermission(roleId);
         }
 
-        return userPermission;
+        return permissionList;
     }
 }

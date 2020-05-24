@@ -25,6 +25,7 @@ public class UserRealm extends AuthorizingRealm {
     private LoginService loginService;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("#############  doGetAuthorizationInfo");
         Session session = SecurityUtils.getSubject().getSession();

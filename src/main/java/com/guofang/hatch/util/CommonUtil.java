@@ -1,5 +1,6 @@
 package com.guofang.hatch.util;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.config.exception.CommonJsonException;
 import com.guofang.hatch.util.constant.Constant;
@@ -10,6 +11,7 @@ import org.springframework.util.DigestUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 public class CommonUtil {
     public static JSONObject successJson() {
@@ -38,7 +40,7 @@ public class CommonUtil {
     public static JSONObject errorJson(ErrorEnum errorEnum) {
         JSONObject resultJson = new JSONObject();
         resultJson.put(Constant.JSON_RESPONSE_CODE, errorEnum.getErrorCode());
-        resultJson.put(Constant.JSON_RESPONSE_MESSAGE, errorEnum.getErrorMsg());
+        resultJson.put(Constant.JSON_RESPONSE_ERROR, errorEnum.getErrorMsg());
         resultJson.put(Constant.JSON_RESPONSE_DATA, new JSONObject());
 
         return resultJson;
@@ -120,13 +122,30 @@ public class CommonUtil {
                 }
             }
             if(StringTool.isNullOrEmpty(missCol)) {
-                jsonObject.clear();;
+                jsonObject.clear();
                 jsonObject.put(Constant.JSON_RESPONSE_CODE, ErrorEnum.E_10001.getErrorCode());
                 jsonObject.put(Constant.JSON_RESPONSE_MESSAGE, ErrorEnum.E_10001.getErrorMsg() + missCol.trim());
                 jsonObject.put(Constant.JSON_RESPONSE_DATA, new JSONObject());
                 throw new CommonJsonException(jsonObject);
             }
         }
+    }
+
+    public static JSONArray listMap2JsonArr(List<Map<String, Object>> listMap) {
+        JSONArray jsonArray = new JSONArray();
+
+        if(listMap.size() > 0) {
+            JSONObject tmp = new JSONObject();
+            for(Map<String, Object> itMap : listMap) {
+                tmp.clear();
+                for(String k : itMap.keySet()) {
+                    tmp.put(k, itMap.get(k));
+                }
+                jsonArray.add(tmp);
+            }
+        }
+
+        return jsonArray;
     }
 
     /**

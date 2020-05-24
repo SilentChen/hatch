@@ -5,7 +5,7 @@
 
     <select id="getUser" resultType="com.alibaba.fastjson.JSONObject">
         select
-            gu.id, gu.bid, gu.password, gu.account_number, gu.remember_token, gu.created_at, gu.updated_at, gu.avatar, gu.phone, gu.user_name, gu.post_id, gu.dep_id, gu.sex, gu.`identity`,
+            gu.id, gu.bid, gu.password, gu.account_number, gu.remember_token, gu.created_at, gu.updated_at, gu.avatar, gu.phone, gu.user_name, gu.post_id, gu.dep_id, gu.sex, gu.identity, gu.avatar, gu.bname,
             gru.role_id
         from
             gf_users gu left join gf_role_users gru on gu.id = gru.user_id
