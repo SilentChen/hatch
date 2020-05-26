@@ -1,19 +1,18 @@
 package com.guofang.hatch.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.guofang.hatch.dao.EnterpriseDao;
 import com.guofang.hatch.service.EnterpriseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EnterpriseServiceImpl extends BaseServiceImpl implements EnterpriseService {
-    @Override
-    public String getDbTable(){
-        return "gf_enterprise";
-    }
+public class EnterpriseServiceImpl implements EnterpriseService {
+    @Autowired
+    private EnterpriseDao enterpriseDao;
 
     @Override
-    public String getFillableColumns(){
-        return "*";
+    public JSONObject listPage(JSONObject request){
+        return new JSONObject();
     }
-
-
 }
