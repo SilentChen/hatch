@@ -1,7 +1,9 @@
 package com.guofang.hatch.service;
 
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.List;
 
 public interface PermissionService {
-    JSONArray getUserPermission(String bid, String roleId, String identity);
+    List<JSONObject> getUserPermission(String bid, String roleId, String identity);
 }

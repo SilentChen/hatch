@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BusinessServiceImpl implements BusinessService {
+public class BusinessServiceImpl extends BaseServiceImpl implements BusinessService {
     @Autowired
     private BusinessDao businessDao;
 

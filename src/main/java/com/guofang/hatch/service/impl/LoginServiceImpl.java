@@ -1,6 +1,5 @@
 package com.guofang.hatch.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.dao.LoginDao;
 import com.guofang.hatch.service.LoginService;
@@ -15,6 +14,8 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -58,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
         String roleId = userInfo.getString("role_id");
         String identity = userInfo.getString("identity");
 
-        JSONArray userPermission = permissionService.getUserPermission(bid, roleId, identity);
+        List<JSONObject> userPermission = permissionService.getUserPermission(bid, roleId, identity);
         userInfo.put("menu_list", userPermission);
         session.setAttribute(Constant.SESSION_USER_PERMISSION, userInfo);
 

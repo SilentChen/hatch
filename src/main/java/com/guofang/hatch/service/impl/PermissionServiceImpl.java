@@ -1,10 +1,12 @@
 package com.guofang.hatch.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.dao.PermissionDao;
 import com.guofang.hatch.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -12,13 +14,13 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionDao permissionDao;
 
     @Override
-    public JSONArray getUserPermission(String bid, String roleId, String identity) {
-        JSONArray userPermission = getUserPermissionFromDB(bid, roleId, identity);
+    public List<JSONObject> getUserPermission(String bid, String roleId, String identity) {
+        List<JSONObject> userPermission = getUserPermissionFromDB(bid, roleId, identity);
         return userPermission;
     }
 
-    private JSONArray getUserPermissionFromDB(String bid, String roleId, String identity) {
-        JSONArray permissionList;
+    private List<JSONObject> getUserPermissionFromDB(String bid, String roleId, String identity) {
+        List<JSONObject> permissionList;
         // super admin
         if(identity.equals("1")) {
             permissionList = permissionDao.getAllPermission(bid);

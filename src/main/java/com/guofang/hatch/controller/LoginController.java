@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.guofang.hatch.service.LoginService;
 import com.guofang.hatch.util.CommonUtil;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.Subject;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,6 +26,11 @@ public class LoginController {
     @GetMapping("/me")
     public JSONObject getInfo() {
         return loginService.getInfo();
+    }
+
+    @GetMapping("/logout")
+    public JSONObject logout () {
+        return loginService.logout();
     }
 
     @RequestMapping("/test")

@@ -1,12 +1,15 @@
 package com.guofang.hatch.dao;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.List;
 import java.util.Set;
 
 public interface PermissionDao {
-    JSONArray getUserPermission(String roleId);
+    List<JSONObject> getUserPermission(String roleId);
 
     Set<String> getAllMenu();
 
-    JSONArray getAllPermission(String bid);
+    List<JSONObject> getAllPermission(String bid);
 }
